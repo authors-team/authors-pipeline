@@ -7,6 +7,8 @@ airtable.configure({
 });
 const base = airtable.base('appNfr4wxZAQ68iEQ');
 
+const tasksTable = base('Tasks');
+
 exports.getPersonFromSlackID = slackID => {
 	return new Promise((resolve, reject) => {
 		let person;
@@ -68,8 +70,8 @@ exports.getTasks = (scope, assignee) => {
 		base('Tasks')
 			.select({
 				// get the first 10 records
-				maxRecords: 10,
-				sort: [{ field: 'Project' }, { field: 'End Date' }],
+				maxRecords: 20,
+				sort: [{ field: 'End Date' }, { field: 'Project' }],
 				filterByFormula: "NOT({Assignee} = '')"
 			})
 			.eachPage(
@@ -82,7 +84,8 @@ exports.getTasks = (scope, assignee) => {
 									endDate: record.get('End Date'),
 									project: record.get('Project'),
 									completed: record.get('Done'),
-									assignee: record.get('Assignee')
+									assignee: record.get('Assignee'),
+									notes: record.get('Notes')
 								});
 							}
 						//console.log(record.get('Task'));
@@ -98,6 +101,32 @@ exports.getTasks = (scope, assignee) => {
 					resolve(tasks);
 				}
 			);
+	});
+};
+
+exports.checkTask = recordId => {
+	return new Promise((resolve, reject) => {
+		tasksTable.find(recordId, async (err, record) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			completed = await !record.get('Done');
+			console.log(completed);
+			await tasksTable.update(
+				recordId,
+				{
+					Done: completed
+				},
+				(err, record) => {
+					if (err) {
+						console.error(err);
+						return;
+					}
+					resolve(record.get('Done'));
+				}
+			);
+		});
 	});
 };
 
