@@ -5,7 +5,7 @@ airtable.configure({
 	endpointUrl: 'https://api.airtable.com',
 	apiKey: process.env.AIRTABLE_API_KEY
 });
-const base = airtable.base('appNfr4wxZAQ68iEQ');
+const base = airtable.base(process.env.AIRTABLE_BASE);
 
 const tasksTable = base('Tasks');
 
