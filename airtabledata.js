@@ -129,21 +129,3 @@ exports.checkTask = recordId => {
 		});
 	});
 };
-
-// getPersonFromSlackID('U71RK22SE').then(person => {
-// 	console.log(person);
-// 	getTasks('all', person.id).then(tasks => console.log(tasks));
-// });
-
-// async function init() {
-// 	let projects = [];
-// 	await getProjectsFromIDs([
-// 		'rec21pwC2dAtCz25s',
-// 		'recktjzhjNwVodSNn',
-// 		'recqQmvmDYJIkf0Eu'
-// 	]).then(async res => (projects = await res));
-
-// 	console.log(projects);
-// }
-
-// init();
