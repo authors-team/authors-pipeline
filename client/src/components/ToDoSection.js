@@ -58,16 +58,17 @@ class ToDoSection extends Component {
 				</div>
 				<Collapse isOpen={this.state.isOpen}>
 					{todos.map(
-						({ title, completed, notes, id, endDate }, index, todos) => {
+						({ task, completed, notes, id, endDate }, index, todos) => {
 							let dueDate =
 								index > 0 && endDate === todos[index - 1].endDate
 									? ''
 									: endDate;
-							dueDate = !endDate ? 'no due date' : dueDate;
+							dueDate = !endDate ? '' : dueDate;
 							return (
 								<ToDoItem
 									dueDate={dueDate}
-									title={title}
+									today={this.props.today}
+									task={task}
 									completed={completed}
 									notes={notes}
 									onCheckClick={this.onCheckClick}

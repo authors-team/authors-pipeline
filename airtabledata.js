@@ -80,6 +80,7 @@ exports.getTasks = (scope, assignee) => {
 						if (record.get('Task') != '')
 							if (record.get('Assignee').includes(assignee)) {
 								tasks.push({
+									id: record.id,
 									task: record.get('Task'),
 									endDate: record.get('End Date'),
 									project: record.get('Project'),

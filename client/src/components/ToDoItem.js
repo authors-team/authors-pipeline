@@ -18,10 +18,25 @@ export default class ToDoItem extends Component {
 	};
 
 	render() {
+		let overDue =
+			Date.parse(this.props.dueDate) < Date.parse(this.props.today)
+				? true
+				: false;
+		// console.log(
+		// 	`Due date: ${Date.parse(this.props.dueDate)} : Today: ${Date.parse(
+		// 		this.props.today
+		// 	)}`
+		// );
 		return (
 			<div className='row pt-1 align-self-center align-middle'>
-				<div className='col-md-3 text-md-right '>
-					<small className='text-uppercase '>{this.props.dueDate}</small>
+				<div className={'col-md-3 text-md-right'}>
+					<small
+						className={`text-uppercase ${
+							+overDue ? 'text-danger font-weight-bold' : ''
+						}`}
+					>
+						{this.props.dueDate}
+					</small>
 				</div>
 				<div className='col-md-8 d-inline  hoverDiv'>
 					<FormGroup
@@ -49,7 +64,7 @@ export default class ToDoItem extends Component {
 							className='d-inline'
 						/>
 						<p className='d-inline' onClick={this.toggle}>
-							{this.props.title}
+							{this.props.task}
 						</p>
 					</FormGroup>
 					{this.props.notes && (

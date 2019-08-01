@@ -13,16 +13,25 @@ import {
 	DropdownItem,
 	Container
 } from 'reactstrap';
+import HelpModal from './HelpModal';
 
 export default class AppNavBar extends Component {
 	state = {
-		isOpen: false
+		isOpen: false,
+		helpModal: false
 	};
 
 	toggle = () => {
 		this.setState({
 			isOpen: !this.state.isOpen
 		});
+	};
+
+	toggleHelp = e => {
+		e.preventDefault();
+		this.setState(prevstate => ({
+			helpModal: !prevstate.helpModal
+		}));
 	};
 
 	render() {
@@ -37,11 +46,14 @@ export default class AppNavBar extends Component {
 					<Collapse isOpen={this.state.isOpen} navbar>
 						<Nav className='ml-auto' navbar>
 							<NavItem>
-								<NavLink href='/help'>Help</NavLink>
+								<NavLink href='/' onClick={this.toggleHelp}>
+									Help
+								</NavLink>
 							</NavItem>
 						</Nav>
 					</Collapse>
 				</Navbar>
+				<HelpModal isOpen={this.state.helpModal} toggle={this.toggleHelp} />
 			</div>
 		);
 	}
