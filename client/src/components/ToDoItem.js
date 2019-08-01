@@ -22,11 +22,6 @@ export default class ToDoItem extends Component {
 			Date.parse(this.props.dueDate) < Date.parse(this.props.today)
 				? true
 				: false;
-		// console.log(
-		// 	`Due date: ${Date.parse(this.props.dueDate)} : Today: ${Date.parse(
-		// 		this.props.today
-		// 	)}`
-		// );
 		return (
 			<div className='row pt-1 align-self-center align-middle'>
 				<div className={'col-md-3 text-md-right'}>
@@ -41,7 +36,7 @@ export default class ToDoItem extends Component {
 				<div className='col-md-8 d-inline  hoverDiv'>
 					<FormGroup
 						style={{
-							'text-decoration': this.props.completed && 'line-through'
+							textDecoration: this.props.completed && 'line-through'
 						}}
 						className={this.props.completed && 'text-secondary'}
 					>

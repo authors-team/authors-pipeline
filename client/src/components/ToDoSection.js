@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ToDoItem from './ToDoItem';
 import { Collapse } from 'reactstrap';
 import { checkTodo } from '../actions/todoActions';
@@ -22,16 +22,7 @@ class ToDoSection extends Component {
 	onCheckClick = id => {
 		this.props.checkTodo(id);
 	};
-	// checkTodoById = id => {
-	// 	console.log(`Complete task ${id}`);
 
-	// 	const todos = [...this.state.todos];
-	// 	const index = todos.findIndex(x => x.id === id);
-	// 	todos[index].completed = !todos[index].completed;
-	// 	this.setState(state => ({
-	// 		todos
-	// 	}));
-	// };
 	render() {
 		const { todos } = this.props;
 		return (
@@ -85,15 +76,15 @@ class ToDoSection extends Component {
 }
 
 ToDoSection.propTypes = {
-	todos: PropTypes.object.isRequired,
-	checkTodo: PropTypes.func.isRequired
+	checkTodo: PropTypes.func.isRequired,
+	todos: PropTypes.array.isRequired
 };
 
-const mapStateToProps = state => ({
-	todo: state.todo
-});
+// const mapStateToProps = state => ({
+// 	todo: state.todo
+// });
 
 export default connect(
-	mapStateToProps,
+	null,
 	{ checkTodo }
 )(ToDoSection);

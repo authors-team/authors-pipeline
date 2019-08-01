@@ -6,12 +6,7 @@ import {
 	NavbarBrand,
 	Nav,
 	NavItem,
-	NavLink,
-	UncontrolledDropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	Container
+	NavLink
 } from 'reactstrap';
 import HelpModal from './HelpModal';
 

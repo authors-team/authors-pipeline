@@ -6,44 +6,12 @@ import PropTypes from 'prop-types';
 
 class ToDoList extends Component {
 	state = {
-		todaysDate: new Date().toISOString().slice(0, 10),
-		today: [],
-		upcoming: [],
-		later: []
+		todaysDate: new Date().toISOString().slice(0, 10)
 	};
 	componentDidMount() {
 		console.log('loading todos...');
 		this.props.getTodos();
 	}
-	// componentDidMount() {
-	// 	this.props.getTodos();
-	// }
-	// componentDidUpdate(prevProps) {
-	// 	if (prevProps.todos != this.props.todos) {
-	// 		let { todaysDate } = this.state;
-	// 		console.log('component did update');
-	// 		let upcomingTodos = [];
-	// 		let laterTodos = [];
-	// 		let todaysTodos = this.props.todos.filter(todo => {
-	// 			if (!todo.endDate) {
-	// 				laterTodos.push(todo);
-	// 				return false;
-	// 			} else {
-	// 				if (Date.parse(todo.endDate) <= Date.parse(todaysDate)) {
-	// 					return true;
-	// 				} else {
-	// 					upcomingTodos.push(todo);
-	// 					return false;
-	// 				}
-	// 			}
-	// 		});
-	// 		this.setState({
-	// 			today: todaysTodos,
-	// 			upcoming: upcomingTodos,
-	// 			later: laterTodos
-	// 		});
-	// 	}
-	// }
 
 	render() {
 		const { loading } = this.props;
@@ -79,8 +47,11 @@ class ToDoList extends Component {
 
 ToDoList.propTypes = {
 	getTodos: PropTypes.func.isRequired,
-	todos: PropTypes.object.isRequired,
-	loading: PropTypes.bool.isRequired
+	todos: PropTypes.array.isRequired,
+	loading: PropTypes.bool.isRequired,
+	later: PropTypes.array.isRequired,
+	upcoming: PropTypes.array.isRequired,
+	today: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => {

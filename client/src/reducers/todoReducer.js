@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import { GET_TODOS, CHECK_TODO, ITEMS_LOADING } from '../actions/types';
 
 const initialState = {
