@@ -3,7 +3,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const axios = require('axios');
-const airtableData = require('../../airtabledata');
+const airtableData = require('../../utils/airtabledata');
 
 //Routes
 
@@ -27,10 +27,27 @@ router.get('/:id', (req, res) => {
 router.get('/user/:id', (req, res) => {
 	airtableData
 		.getTasks('all', req.params.id)
-		.then(tasks => {
-			res.json(tasks);
+		.then(async tasks => {
+			let projectIds = [];
+
+			tasks.forEach(async (task, index) => {
+				// Get unique project IDs
+				if (task.project[0] != '' && !projectIds.includes(task.project[0])) {
+					projectIds.push(task.project[0]);
+				}
+			});
+
+			let projects;
+			await airtableData
+				.getProjectsFromIDs(projectIds)
+				.then(async res => (projects = await res));
+
+			res.json({
+				tasks: tasks,
+				projects: projects
+			});
 		})
-		.catch(err => res.status(404).json({ success: false }));
+		.catch(err => res.status(404).json({ error: err.message }));
 
 	//res.status(200).send(`All tasks for user id: ${req.params.id}`);
 });

@@ -9,8 +9,9 @@ class ToDoList extends Component {
 		todaysDate: new Date().toISOString().slice(0, 10)
 	};
 	componentDidMount() {
+		const { userId } = this.props;
 		console.log('loading todos...');
-		this.props.getTodos();
+		this.props.getTodos(userId);
 	}
 
 	render() {
@@ -21,24 +22,39 @@ class ToDoList extends Component {
 					<h2>Loading...</h2>
 				</div>
 			);
+		} else if (this.props.todos.length === 0) {
+			return (
+				<div>
+					<h1>No Tasks Found</h1>
+				</div>
+			);
 		} else {
 			return (
 				<Fragment>
-					<ToDoSection
-						header='Today'
-						todos={this.props.today}
-						today={this.state.todaysDate}
-					/>
-					<ToDoSection
-						header='Upcoming'
-						todos={this.props.upcoming}
-						today={this.state.todaysDate}
-					/>
-					<ToDoSection
-						header='Later'
-						todos={this.props.later}
-						today={this.state.todaysDate}
-					/>
+					{this.props.today.length > 0 && (
+						<ToDoSection
+							header='Today'
+							todos={this.props.today}
+							today={this.state.todaysDate}
+							projects={this.props.projects}
+						/>
+					)}
+					{this.props.upcoming.length > 0 && (
+						<ToDoSection
+							header='Upcoming'
+							todos={this.props.upcoming}
+							today={this.state.todaysDate}
+							projects={this.props.projects}
+						/>
+					)}
+					{this.props.later.length > 0 && (
+						<ToDoSection
+							header='Later'
+							todos={this.props.later}
+							today={this.state.todaysDate}
+							projects={this.props.projects}
+						/>
+					)}
 				</Fragment>
 			);
 		}
@@ -55,10 +71,11 @@ ToDoList.propTypes = {
 };
 
 const mapStateToProps = state => {
-	console.log(state.todos);
+	//console.log(state.todos);
 	let todaysDate = new Date().toISOString().slice(0, 10);
 	return {
 		todos: state.todos.items,
+		projects: state.todos.projects,
 		later: state.todos.items.filter(todo => !todo.endDate),
 		today: state.todos.items.filter(
 			todo => todo.endDate && Date.parse(todo.endDate) <= Date.parse(todaysDate)

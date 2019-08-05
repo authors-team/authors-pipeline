@@ -3,7 +3,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const axios = require('axios');
-const airtableData = require('../../airtabledata');
+const airtableData = require('../../utils/airtabledata');
 
 // Routes
 

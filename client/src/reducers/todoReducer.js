@@ -1,7 +1,13 @@
-import { GET_TODOS, CHECK_TODO, ITEMS_LOADING } from '../actions/types';
+import {
+	GET_TODOS,
+	CHECK_TODO,
+	ITEMS_LOADING,
+	GET_PROJECTS
+} from '../actions/types';
 
 const initialState = {
 	items: [],
+	projects: [],
 	loading: false
 };
 
@@ -10,7 +16,8 @@ export default function(state = initialState, action) {
 		case GET_TODOS:
 			return {
 				...state,
-				items: action.payload,
+				items: action.payload.tasks,
+				projects: action.payload.projects,
 				loading: false
 			};
 		case CHECK_TODO:
@@ -26,6 +33,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				loading: true
+			};
+		case GET_PROJECTS:
+			return {
+				...state,
+				projects: action.payload,
+				loading: false
 			};
 
 		default:

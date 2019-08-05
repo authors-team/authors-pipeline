@@ -8,6 +8,28 @@ airtable.configure({
 const base = airtable.base(process.env.AIRTABLE_BASE);
 
 const tasksTable = base('Tasks');
+const peopleTable = base('People');
+
+exports.getUserById = userId => {
+	let user;
+	return new Promise((resolve, reject) => {
+		peopleTable.find(userId, (err, record) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			user = {
+				id: record.id,
+				name: record.get('Name'),
+				email: record.get('Email'),
+				slackUserName: record.get('Slack Username'),
+				company: record.get('Company'),
+				active: record.get('Active')
+			};
+			resolve(user);
+		});
+	});
+};
 
 exports.getPersonFromSlackID = slackID => {
 	return new Promise((resolve, reject) => {
@@ -38,6 +60,7 @@ exports.getPersonFromSlackID = slackID => {
 };
 
 exports.getProjectsFromIDs = projectIDs => {
+	let projects = [];
 	return new Promise((resolve, reject) => {
 		//let projects = [];
 		base('Projects')
@@ -46,10 +69,20 @@ exports.getProjectsFromIDs = projectIDs => {
 			})
 			.eachPage(
 				async (records, fetchNextPage) => {
-					let projects = await records.filter(record => {
+					let res = await records.filter(record => {
 						return projectIDs.indexOf(record.id) !== -1;
 					});
-					//projects = [...projects, res];
+					//records = [...records, res];
+					res.forEach(record => {
+						projects.push({
+							id: record.id,
+							name: record.get('Job Name'),
+							jobNumber: record.get('Job Number'),
+							active: record.get('Active'),
+							slack: record.get('Slack #'),
+							company: record.get('Company')
+						});
+					});
 					fetchNextPage();
 					resolve(projects);
 				},
@@ -58,7 +91,7 @@ exports.getProjectsFromIDs = projectIDs => {
 						console.error(err);
 						return;
 					}
-					//resolve(projects);
+					//resolve(records);
 				}
 			);
 	});
@@ -130,3 +163,5 @@ exports.checkTask = recordId => {
 		});
 	});
 };
+
+//getUserById('recyLRMuMMXdd7csu').then(res => console.log(res));

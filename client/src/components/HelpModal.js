@@ -11,7 +11,7 @@ class HelpModal extends Component {
 					<ModalHeader toggle={this.props.toggle}>
 						Are you struggling? Let us help you
 					</ModalHeader>
-					<ModalBody p-2>
+					<ModalBody className='p-2'>
 						<img
 							src='https://media.giphy.com/media/fdLR6LGwAiVNhGQNvf/giphy.gif'
 							alt='help me help you'

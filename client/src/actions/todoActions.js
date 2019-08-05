@@ -1,9 +1,9 @@
-import { GET_TODOS, CHECK_TODO, ITEMS_LOADING } from './types';
+import { GET_TODOS, CHECK_TODO, ITEMS_LOADING, GET_PROJECTS } from './types';
 import axios from 'axios';
 
-export const getTodos = () => dispatch => {
+export const getTodos = userId => dispatch => {
 	dispatch(setItemsLoading());
-	return axios.get('/api/tasks/user/recyLRMuMMXdd7csu').then(res => {
+	return axios.get(`/api/tasks/user/${userId}`).then(res => {
 		return dispatch({
 			type: GET_TODOS,
 			payload: res.data
@@ -18,6 +18,13 @@ export const checkTodo = id => dispatch => {
 			payload: id
 		})
 	);
+};
+
+export const getProjects = projectIds => dispatch => {
+	return dispatch({
+		type: GET_PROJECTS,
+		payload: null
+	});
 };
 
 export const setItemsLoading = () => {

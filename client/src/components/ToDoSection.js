@@ -24,7 +24,7 @@ class ToDoSection extends Component {
 	};
 
 	render() {
-		const { todos } = this.props;
+		const { todos, projects } = this.props;
 		return (
 			<div className='my-5'>
 				<div className='row'>
@@ -49,12 +49,18 @@ class ToDoSection extends Component {
 				</div>
 				<Collapse isOpen={this.state.isOpen}>
 					{todos.map(
-						({ task, completed, notes, id, endDate }, index, todos) => {
+						(
+							{ task, completed, notes, id, endDate, project },
+							index,
+							todos
+						) => {
 							let dueDate =
 								index > 0 && endDate === todos[index - 1].endDate
 									? ''
 									: endDate;
 							dueDate = !endDate ? '' : dueDate;
+							let projectInfo = projects.find(proj => proj.id === project[0]);
+							console.log(projectInfo);
 							return (
 								<ToDoItem
 									dueDate={dueDate}
@@ -65,6 +71,7 @@ class ToDoSection extends Component {
 									onCheckClick={this.onCheckClick}
 									key={id}
 									id={id}
+									project={projectInfo}
 								/>
 							);
 						}
@@ -77,7 +84,8 @@ class ToDoSection extends Component {
 
 ToDoSection.propTypes = {
 	checkTodo: PropTypes.func.isRequired,
-	todos: PropTypes.array.isRequired
+	todos: PropTypes.array.isRequired,
+	projects: PropTypes.array.isRequired
 };
 
 // const mapStateToProps = state => ({
